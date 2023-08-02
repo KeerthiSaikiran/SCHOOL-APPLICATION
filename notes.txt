@@ -1,0 +1,2 @@
+The following untracked files cannot be merged error:
+    execute the command "git clean -d -f ." in terminal
