@@ -1,0 +1,13 @@
+* {
+    margin: 10;
+    padding: 10;
+}
+
+h1 {
+    color: blue;
+    font-style: italic;
+}
+
+body {
+  background-color: skyblue;
+}
