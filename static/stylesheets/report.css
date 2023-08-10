@@ -1,0 +1,24 @@
+.centeralign {
+    text-align: center;
+}
+
+table{
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    color: blue;
+    font-style: bold;
+    background-color: lightblue;
+}
+
+h2 {
+    color: greenyellow;
+    font-style: italic;
+}
+
+body {
+    background-color: gray;
+}

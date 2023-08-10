@@ -24,4 +24,5 @@ urlpatterns = [
     path('', views.homepage),
     path('adm/', include('admissions.urls')),
     path('fin/', include('finance.urls')),
+    path('vendor/', views.add_vendor)
 ]

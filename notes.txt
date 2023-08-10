@@ -1,2 +1,340 @@
 The following untracked files cannot be merged error:
     execute the command "git clean -d -f ." in terminal
+
+Commands to perform operations on the database using python shell on terminal
+
+    python manage.py shell
+
+    from django.db import connection
+    cur = connection.cursor()
+    cur.execute("select * from admissions_student")
+        Here migrate will create the table on the database as applicationname_modelname
+        we give our command to be executed in the execute function
+    res = cur.fetchall() --store all the values in the cur into the res list variable
+    print(res) prints all the values in the res
+
+    To exit python shell type command ctrl z and hit enter
+
+
+Database settings for Mysql database:
+
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'schoolapp',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
+Note -
+    Host and Port are not required to be specified if we are using database on the same system.
+        If we are using database on remote server we need to specify.
+    Never use root database for database access. so don't give root user credentials in settings.py
+
+create a new database for the project:
+
+    create database schoolapp
+
+To create a new user to access the schoolapp database -
+    create user 'schoolappuser'@'localhost' identified with mysql_native_password by 'schoolapp123';
+
+Grant the newly created user the access to the database -
+    grant all on schoolapp.* to 'schoolappuser'@'localhost';
+
+database settings:
+
+    Name = schoolapp
+    username = schoolappuser
+    password = schoolapp123
+
+Django admin credentials-
+
+    username = admin
+    email address = admin.schoolapp@mail.com
+    Password = pswrd1234
+
+Django ORM ( Object Relational Mapping ) -
+-------------------------------------------------------------
+
+Mysql to Django Orm conversion
+
+Mysql query returns the data in table and column representation
+Django ORM returns the data in the form of query set
+
+To acees data in a query set we can loop through it
+
+To see the sql query executed we can print useing print(queryset.query)
+
+To select all the rows in a table
+Mysql      -   select * from table_name;
+               qs = select * from admissions_student;
+Django ORM -   model_name.objects.all()
+               qs = Student.objects.all()
+
+To select all from a table using where clause
+Mysql       - select * from table_name where condition;
+              select * from admissions_table where id = 3;
+Django ORM  - model_name.objects.get(condition); --> If only single value is present in table with this condtion
+                        (mostly used if condition is on primary key i.e, unique column)
+              qs = Student.objects.get(id=3)
+
+
+
+
+To retreive specific column values
+Mysql       - select coulmn_names from admissions_student --> column names are comma(,) seperated
+              select id,name,contact from admissions_student;
+Django ORM  - table.objects.all().values_list(columnames) --> column names are comma(,) seperated and with ''
+                    --> Retrieves data as individual tuples in a queryset
+              qs = Student.objects.all().values_list('id', 'name', 'contact') --> column names are comma(,) seperated and with ''
+                            or
+              table.objects.all().values(columnames) --> column names are comma(,) seperated and with ''
+               --> Retrieves data as individual dictionaries for each row
+              qs = Student.objects.all().values('id', 'name', 'contact')
+                            or
+              table.objects.all().only(columnames) --> column names are comma(,) separated and with ''
+                --> returns rows as objects and adds id feild even if we not given in query
+                --> To get the data we need to iterate through the query set that is returned.
+              qs = Student.objects.all().only('id', 'name', 'contact')
+
+
+
+Filtering using (gt,gte,lt,lte,contains,icontains,in,startswith,endswith)
+gt - greater than, gte - greater than or equal to, lt - less than, lte - less than or equal to
+
+greater than, greater than or equal to, less than or less than or equal to-
+      Mysql      - select * from table_name where condition --> condition is as per requirement(>, >=, <, <=).
+                   select * from table_name where id>3
+
+      Django ORM - model_name.objects.filer(columnname__abbreviation=value)
+                                -->  abbreviations :gt = greater than, gte = greater than or equal to, lt = less than,
+                                        lte = less than or equal to
+                   qs = Student.objects.filter(id__gt=3) --> returns query set of objects for each row. To get the value of iterate over query set
+
+contains, startswith, endswith -
+  contains in django is same as like in sql -
+       Mysql      - select * from table_name where columnname LIKE 'regularexpression'
+                    select * from admissions_student where name LIKE '%Sh%';
+
+       Django ORM - Model_name.objects.filter(columnname__contains = 'substring')
+                    qs = Student.objects.filter(name__contains = 'Sh') --> contains is case sensitive
+                    qs = Student.objects.filter(name__icontains = 'Sh') --> icontains is case insensitive i.e, not case sensitive
+
+  startswith -
+        Mysql      - select * from admissions_studnet where name LIKE 'Sai%';
+        Django ORM - Student.objects.filter(name__startswith('Sai'));
+
+  endswith -
+        Mysql       - select * from admissions_student where name LIKE 'Sh%';
+        Django ORM - Student.objects.filter(name__endswith('Sh'))
+
+  in -
+    used to retrieve the set of specified values
+        Mysql      - select * from admissions_student where id in (1,3,5);
+        Django ORM - Student.objects.filter(id__in = [1,3,5])
+
+Logical Operators (And, Or, Not) -
+
+    And-
+        Mysql       - select * from admissions_student where id > 3 AND classname <= 2
+        Django ORM  - Student.Objects.filter(id__gt = 3) & Student.Objects.filter(classname__lte = 2)
+    Or -
+        Mysql       - select * from admissions_student where id >= 3 OR name LIKE '%s';
+        Django ORM  - Student.objects.filter(id__gte = 3) | Student.objects.endswith('s')
+    Not -
+        Mysql       - select * from admissions_student where NOT id <= 5;
+        Django ORM  - Student.objects.exclude(id__lte = 5)
+
+
+
+Aggregate Functions (Avg, Sum, Max, Min, Count) -
+--------------------------------------------------------------------
+
+first import the packages-
+from django.db.model import Avg, Sum, Max, Min, Count
+
+StudentsClassnameAvg = Student.objects.all().aggregate(Avg('classname'))
+print(studentsClassnameAvg)
+O/p - {'classname__avg': 4.2}
+
+StudentsIdSum = Student.objects.all().aggregate(Sum('id'))
+print(StudentsIdSum)
+O/p - {'id__sum' Decimal('15')}
+
+StudentsIdMax = Student.objects.all().aggregate(Max('id'))
+print(StudentsIdMax)
+O/p - {'id__sum' Decimal('15')}
+
+Aggregate functions can also be used to apply on other queries also
+ex - MaxId = Student.objects.filter(id__gt = 3).aggregate(Max('id'))
+     print(MaxId)
+     O/p - {'id__MaxId': 5}
+
+
+
+ Inserting data into database (create) -
+ --------------------------------------------------
+
+ Inserting-
+    1.
+        create an object
+        save
+
+        Object_name = Model_name(columnsnames = value) --> columnames and valueas are comma , seperated)
+        Object_name.save()
+
+        Ex- s = Student(name='Ramesh', fathername='Somu', classname = 2, contact='1232343456')
+            s.save()
+
+
+    2.
+        using the create method, bulk create method
+
+        create method -
+
+        Model_name.objects.create(columnnames = value)
+
+        ex- Student.objects.create(name='Ramu', fathername='Anand', classname=4 , contact='3455666666'')
+
+        bulk create method -
+
+        Model_name.objects.bulk_create(
+        [
+            Model_name(columnnames = values),
+                .
+                .
+                .
+                .
+         ]
+         )
+
+         ex -
+         Student.objects.bulk_create(
+         [
+         Student(name='Ramesh', fathername='Somu', classname=2, contact='1232343456'),
+         student(name='Anand', fathername='Prakash', classname=2, contact='9088088978'),
+         Student(name='Fahreen', fathername='Azad', classname=9, contact='0986800869')
+         ]
+         )
+
+
+
+ Delete from table -
+
+    use the delete() method
+
+    create a new object to retreive the data then
+    object_name.delete()
+
+    ex- delobj = Student.objects.get(id=7)
+        delobj.delete()
+
+       O/p = (1, {'admissions_Student': 1})
+
+    ex - s = Student.objects.filter(id__in=[10,11])
+         s.delete()
+
+         O/p - (2, {'admissions_Student': 2})
+
+Updating the data -
+
+    If the data is existing then it updates otherwise creates new data
+
+    create a new object to retreive the data then
+    columnname = new value
+            .
+            .
+            .
+            .
+
+     object_name.save()
+
+     ex - s = Student.objects.get(id=6)
+          s.classname=8
+          s.contact='1111111111'
+          s.save()
+
+
+
+Sorting the data -
+
+    using the order by function
+
+    Ascending Order -
+    Mysql       - select * from Student order by classname;
+    Django  ORM - s = Student.objects.all().order_by('classname')
+             for s in students:
+             print (s.name)
+
+    Descending Order -
+    Mysql      - select * from admissions_student order by classname desc;
+    Django ORM - s = Student.objects.all().order_by('-classname')
+                 for s in students:
+                 print(s.name)
+
+
+    If the data from the given condition is having same value then we can define any other column also
+
+    Ex - s = Student.objects.all().order_by('classname', 'id')
+
+
+
+
+Model Forms -
+
+    Django Model Forms provides a way to link the data submitted by the client through the form to a Data Model created to store the entry.
+
+    Using ModelForm, we can efficiently perform the above task without writing much code.
+
+    To create model forms -
+
+        1) Create a file forms.py in your application folder
+        2) Create a class that is inherited from forms.ModelForm
+        3) Create a class Meta inside above model form class
+        4) Use ModelForm in template
+        5) Display the form in the template
+
+
+
+    Read from the input and save in databse
+
+        1) get form object with inputs
+        2) save
+
+
+    To avoid the csrf token error after submitting the data we need to give {% csrf_token %} in the template form tag
+
+
+
+Forms -
+
+    Django provides a Form class which is used to create HTML forms. It describes a form and how it works and appears.
+
+    It is similar to the ModelForm class that creates a form by using the Model, but it does not require the Model.
+
+    Each field of the form class map to the HTML form <input> element and each one is a class itself, it manages form data and performs validation while submitting the form.
+
+    Form is used when we need to take the input from the user and perform some operations or process that data but do not require to store that data.
+
+    To create forms -
+
+    1) create a file forms.py in your application folder
+    2) Create a class that is inherited from the forms.Form
+    3) Define the fields
+    4) use Form in view
+    5) Display the form in the template
+
+
+
+
+
+
+
