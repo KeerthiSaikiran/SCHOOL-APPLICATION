@@ -52,3 +52,18 @@ def add_vendor(request):
         return homepage(request)
 
     return render(request, 'vendor.html', vendorform)
+
+
+def delete_student(request, id):
+    s = Student.objects.get(id=id)
+    s.delete()
+
+    return admission_report(request)
+
+
+def update_student(request, id):
+    s = Student.objects.get(id=id)
+    form = StudentModelForm(instance=s)
+    dict = {'form': form}
+
+    return render(request, 'admissions/update-admission.html', dict)
