@@ -1,10 +1,38 @@
-<!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add new Admission</title>
+
+    <link rel="stylesheet" href="{% static "stylesheets/add_admission.css" %}" />
+
 </head>
 <body>
-    <h1>Add New Admission Page</h1>
+    <div>
+        <h1>Welcome to Admission Page</h1>
+        <img src="{% static "images/cmrec.jpg" %}" alt="Image Not Found" height = 400px, width = 400px />
+    </div>
+        <!--    <h2>Hello {{name}} <br>-->
+<!--        {{greeting}}, please add new admission</h2>-->
+    <div>
+        <h2>Add new admission</h2><br>
+
+    <!--    <form method="post">-->
+    <!--        {{form.as_table}}  &lt;!&ndash; as_p = as paragraph tags-->
+    <!--                               as_table = as table&ndash;&gt;-->
+    <!--        <input type = 'submit' value="Add New admission"></input>-->
+    <!--    </form>-->
+
+            <form method="post">
+                <table>
+                    {{form.as_table}}
+                    <br/>
+                </table>
+                <input type = 'submit'  value="Add New admission"></input>
+
+                {% csrf_token %}
+            </form>
+    </div>
 </body>
 </html>

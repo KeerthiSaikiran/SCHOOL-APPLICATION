@@ -5,5 +5,5 @@ urlpatterns = [
 
     path('feecoll/', views.fee_collection),
     path('feeduereport/', views.fee_due_report),
-    path('feecollreport', views.fee_collection_report),
+    path('feecollreport/', views.fee_collection_report),
 ]

@@ -1,10 +1,45 @@
-<!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Admission Report</title>
+    <meta name="viewport" content="width=device-width, initial">
+    <link rel="stylesheet" href="{% static "stylesheets/report.css" %}" />
 </head>
-<body>
+<body class="centeralign">
   <h1>Admission Report Page</h1>
-</body>
+
+  <hr>
+
+  <h2> All Student Admission Details:</h2> <br>
+
+  {% if allstudents %}
+
+  <table border="1" bgcolor="azure">
+
+      <tr>
+          <th>Name</th>
+          <th>Father Name</th>
+          <th>Class</th>
+          <th>Contact</th>
+      </tr>
+
+            {% for s in allstudents %}
+                <tr>
+                    <td>{{ s.name}}</td>
+                    <td>{{ s.fathername }}</td>
+                    <td>{{ s.classname}}</td>
+                    <td>{{ s.contact}}</td>
+                </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            No data found
+
+        {% endif %}
+        </table>
+    </body>
 </html>

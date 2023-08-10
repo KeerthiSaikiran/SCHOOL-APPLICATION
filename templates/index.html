@@ -1,0 +1,30 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <title>SCHOOL APPLICATION</title>
+    <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
+</head>
+<body>
+    <h2>SCHOOL APPLICATION</h2>
+    <hr>
+    <div class="module">
+        <h1>Admissions</h1><br>
+        <a href = "/adm/newadm/"> <button type="button" name="button">Add Admission</button></a> <br>
+        <br>
+        <a href = "/adm/admreport/"> <button type="button" name="button">Admission Report</button> </a> <br>
+        <br>
+    </div>
+
+    <div class="module">
+        <h1>Finance</h1><br>
+        <a href="/fin/feecoll/"> <button type="button" name="button">Fee Collection</button> </a> <br>
+        <br>
+        <a href="/fin/feeduereport/"><button type="button" name="button">Fee Collection Report</button> </a> <br>
+        <br>
+        <a href="/fin/feecollreport/"> <button type="button" name="button">Fee Dues Report</button> </a> <br>
+        <br>
+    </div>
+</body>
+</html>

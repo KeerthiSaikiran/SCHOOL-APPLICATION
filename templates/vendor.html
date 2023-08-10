@@ -1,0 +1,25 @@
+{% load static %}
+
+<!-- This template is for learning Django forms which is used to just take user input and process it or perform operations
+and display on HTML elements. This data is temporary and not stored anywhere -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vendor Form</title>
+</head>
+<body>
+    <h1> Welcome to add vendor page </h1>
+    <h2>Please add vendor</h2>
+    <form method="POST">
+        <table>
+            {{ vendor_form.as_table }}
+        </table>
+
+        {% csrf_token %}
+
+        <input type="submit" value="submit vendor" />
+
+    </form>
+</body>
+</html>

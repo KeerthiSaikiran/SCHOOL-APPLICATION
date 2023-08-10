@@ -17,8 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from admissions import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.homepage),
     path('adm/', include('admissions.urls')),
     path('fin/', include('finance.urls')),
+    path('vendor/', views.add_vendor)
 ]
