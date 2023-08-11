@@ -66,4 +66,10 @@ def update_student(request, id):
     form = StudentModelForm(instance=s)
     dict = {'form': form}
 
+    if request.method == 'POST':
+        form = StudentModelForm(request.POST, instance=s)
+        if form.is_valid():
+            form.save()
+        return admission_report(request)
+
     return render(request, 'admissions/update-admission.html', dict)

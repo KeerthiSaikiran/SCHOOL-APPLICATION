@@ -334,6 +334,16 @@ Forms -
 
 
 
+Class based views -
+
+    1) create subclass of view - dajango.views.generic
+    2) Implement seperate methods for each http method
+    3) In urls.py use classname.as_view()
+
+
+
+
+
 
 
 
