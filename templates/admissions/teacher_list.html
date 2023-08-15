@@ -1,0 +1,35 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher List</title>
+</head>
+<body>
+    <h1>Teacher List</h1>
+
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Experience</th>
+            <th>Subject</th>
+            <th>Contact</th>
+            <th colspan="2">Actions</th>
+        </tr>
+
+        {% for t in teacher_list %}
+        <tr>
+            <td><a href = "/adm/getteacherdetails/{{t.id}}/">{{t.id}}</a></td>
+            <td>{{t.name}}</td>
+            <td>{{t.experience}}</td>
+            <td>{{t.subject}}</td>
+            <td>{{t.contact}}</td>
+            <td> <a href = "/adm/updateteacher/{{t.id}}">Update</a></td>
+            <td> <a href = "/adm/deleteteacher/{{t.id}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>

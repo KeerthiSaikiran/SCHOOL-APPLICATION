@@ -340,9 +340,56 @@ Class based views -
     2) Implement seperate methods for each http method
     3) In urls.py use classname.as_view()
 
+CRUD Operations using Class based views
+
+    Reading Data from Datadase -
+
+        To perform Read operation we need to use ListView. Steps are as follows
+
+            1) Create a class based view that inherits from ListView
+            2) Provide value to the model attribute (mandatory). Django will pass all the data on the model
+               to the default template that is need to be created.
+            3) Default template name is modelname_list.html. You may pass your own template name
+               by passing the value to the template_name attribute in the class based view.
+            4) Defaujlt context_object_name (object that receives all the objects from ORM) is modelname_list. You can use this object intemplate to access data in model.
+               You can set your own name to the context_object_name by passing string value to this name in the class based view
+            5) Create a template with the name modelname_list.html and print the object's attributes from the list received (modelname_list).
+            6) Configure the url (classname.as_view()) in urls.py.
+
+    Retreiving data from the database -
+
+        To perform Read operation we need to use ListView. Steps are as follows
+
+            1) Create a class based view that inherits from DetailView
+            2) Provide value to the model attribute (mandatory). Django will pass all the data on the model
+               to the default template that is need to be created.
+            3) Default template name is modelname_detail.html. You may pass your own template name
+               by passing the value to the template_name attribute in the class based view.
+            4) Defaujlt context_object_name (object that receives all the objects from ORM) is modelname. You can use this object in template to access data in model.
+               You can set your own name to the context_object_name by passing string value to this name in the class based view
+            5) Create a template with the name modelname_detail.html and print the object's attributes from the modelname.
+            6) Configure the url path('getdetails/<int:pk>/') in urls.py.
 
 
+    Create Operations on Class based views -
 
+        To perform this operations to use CreateView. Steps are as folloes :
+
+            1) Create a class based view that inherits form CreatedView
+            2) Provide value to the model attribute (mandatory)
+            3) Provide value to fields (fields = (fields seperated by comma))
+            4) Default template name is modelname_form.html you may pass your own template name by passing value to the template_name attribute
+            5) Create a method get_absolute_url in model class
+
+                    get_absolute_url(self):
+                        return reverse('urlname',kwargs = {'pk':self.pk})
+
+            6) Create a template with name modelname_form.html
+            7) Configure the url (classname.as_view())
+
+            get_absolute_url() is called after successfull completion of the create/update operations.
+            we have to send the arguments to the urls only when it is required. here args is optional.
+            We can send the arguments to the url by using args/kwargs in reverse function
 
 
 

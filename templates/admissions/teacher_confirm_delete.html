@@ -1,0 +1,17 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Teacher Delete</title>
+</head>
+<body>
+    <form method="post">
+        Are you sure you want to delete this record ? <br> <br>
+      <button type="submit" value="Confirm Teacher Delete">Confirm</button>
+        {% csrf_token %}
+    </form>
+
+    <a href="/adm/teacherslist"><button type="button" value="Cancel">Cancel</button></a>
+</body>
+</html>
