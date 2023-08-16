@@ -1,0 +1,23 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School Login</title>
+</head>
+<body>
+
+  <h1>Welcome to School login Page</h1>
+
+  <form method="POST">
+      <table>
+          {{form.as_table}}
+      </table>
+
+
+      <button type="submit" name="button">LOGIN</button>
+
+    {% csrf_token %}
+  </form>
+</body>
+</html>

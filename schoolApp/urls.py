@@ -21,8 +21,13 @@ from admissions import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', views.homepage),
+
+    path('userlogout/', views.userlogout),
+
     path('adm/', include('admissions.urls')),
     path('fin/', include('finance.urls')),
-    path('vendor/', views.add_vendor)
+    path('vendor/', views.add_vendor),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
