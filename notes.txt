@@ -392,6 +392,77 @@ CRUD Operations using Class based views
             We can send the arguments to the url by using args/kwargs in reverse function
 
 
+    Delete Operation on class based views -
+
+            To perform the delete operaions we need to use DeleteView. Steps are as follows
+
+                1) Create a class that inherits from DeleteView
+                2) Provide value to the model attribute (mandatory)
+                3) Provide value to the success_url = reverse_lazy('urlname')
+                4) Create model_confirm_delete.html to which django forward us and waits for our confirmation.
+                5) Configure the url (classname.as_view())
+
+
+
+Security in Django ( Authentication and Authorization)
+
+    Authentication:
+
+        Authentication is used for login into the website. We can define which view we want to have authentication to access that view through the url.
+        The views which we define to be authenticated they cant be accessed without providing correct username and password.
+
+        Steps to authentication -
+
+            1) Add the auth urls -
+
+                In urls.py file on the project directory add the following in urlpatterns :
+
+                    path('accounts/', include('django.contrib.auth.urls'))
+
+                    Here /accounts url is automatically provided by django. By including this url we can easily access the login and logout functionality provided by django.
+
+            2) Create the login form -
+
+                In templates forlder on the project directory create a folder and name as registration. In registration folder create a html file and name as login.html
+                Django automatically create the login form for us and sends to login.html automatically. We can access the login form by writing {{form.as_p}}  or {{form.as_table}}
+                    in the form tag under body tag in login.html file
+
+            3) Secure the views -
+
+                We have to secure the function based views and class based views on different ways
+
+                    Function based views - add @login_required above the view
+                    Class based views - in the urls.py folder on application folder in the path write as login_required(view.as_view())
+                        ex - path('firstclassbasedview/', login_required(views.FirstClassBasedView.as_view())),
+                        u can assing name to the view if u want as usually we can do if required.
+
+                we can logout from the application by accounts/logout endpoint and it takes to the default django adminstrator logout page. If we want to define the logout page then
+
+                        create a variable on the seeting.py file in the project directory - LOGOUT_REDIRECT_URL = '/userlogout' and create template, view, url mapping respectively for logout page.
+
+            4) Create users -
+
+                Users having the permissions to access the appication can access the secured views by providing the ucorrect username and password on the login page.
+
+                Creating a user with the following credentials through django admin website.
+                Sample user login credentials -
+
+                Username - sampleuser
+                Password - User123@123
+
+                On the login page provide the correct username and password then django redirects to the requested view.
+
+                We can define all the rules and access permisions to the users we create through the django admin portal.
+
+             5) Test it -
+
+                Test after the completion.
+
+
+
+    Authorization -
+
+
 
 
 
