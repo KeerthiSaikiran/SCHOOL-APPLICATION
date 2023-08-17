@@ -56,14 +56,38 @@ def add_vendor(request):
 
     if request.method == 'POST':
         form = VendorForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data['vendor_name'])
-            print(form.cleaned_data['item'])
-            print(form.cleaned_data['contact_details'])
-            print(form.cleaned_data['number_of_items'])
-        return homepage(request)
+        # if form.is_valid():
+            # print(form.cleaned_data['vendor_name'])
+            # print(form.cleaned_data['item'])
+            # print(form.cleaned_data['contact_details'])
+            # print(form.cleaned_data['number_of_items'])
+        # return homepage(request)
 
-    return render(request, 'vendor.html', vendorform)
+
+        if form.is_valid():
+            n = form.cleaned_data['name']
+            a = form.cleaned_data['address']
+            c = form.cleaned_data['contact']
+            i = form.cleaned_data['item']
+
+            response = render(request, 'index.html')
+
+
+            # Cookie implementation
+            # response.set_cookie('name', n)
+            # response.set_cookie("address", a)
+            # response.set_cookie("contact", c)
+            # response.set_cookie("item", i)
+
+            #Session implementation
+            request.session['name'] = n
+            request.session['address'] = a
+            request.session['contact'] = c
+            request.session['item'] = i
+
+        return response
+
+    return render(request, 'admissions/add-vendor.html', vendorform)
 
 
 @login_required

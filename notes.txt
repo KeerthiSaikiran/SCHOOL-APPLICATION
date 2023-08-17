@@ -404,9 +404,21 @@ CRUD Operations using Class based views
 
 
 
-Security in Django ( Authentication and Authorization)
+Security in Django ( Authentication and Authorization) -
+
+    Allowing users to log in to your website solves two problems: authentication and authorization.
+    Authentication is the act of verifying a user’s identity, confirming they are who they say they are.
+    Authorization is deciding whether a user is allowed to perform an action. The two concepts go hand in hand:
+        if a page on your website is restricted to logged-in users, then users have to authenticate before they can be authorized to view the page.
+
+    Django provides tools for both authentication and authorization. Django view authorization is typically done with decorators. This tutorial will show you how to use these view decorators to enforce authorized viewing of pages in your Django site.
 
     Authentication:
+
+        Authentication is the process of verifying a user’s identity. In web applications, this usually involves checking the user’s credentials (e.g., username and password) against a database of registered users.
+        If the provided credentials match a user in the database, the user is considered authenticated.
+
+        Django’s built-in authentication system provides a robust and flexible framework for managing user authentication. It includes a User model for storing user information, as well as views and forms for handling user registration, login, and password management.
 
         Authentication is used for login into the website. We can define which view we want to have authentication to access that view through the url.
         The views which we define to be authenticated they cant be accessed without providing correct username and password.
@@ -461,6 +473,108 @@ Security in Django ( Authentication and Authorization)
 
 
     Authorization -
+
+        Once a user is authenticated, the next step is to determine what they are allowed to do within the application. This process is known as authorization. Authorization is usually based on user roles, groups, or permissions that define what actions a user can perform.
+
+        Django’s authorization system is built on top of its authentication system and allows developers to control access to different parts of the application easily. Django provides a default set of permissions for its built-in models (e.g., add, change, delete)
+        and allows developers to create custom permissions for their own models.
+
+        Permissions:
+            Permissions are actions that a user can perform on a specific model, such as adding, changing, or deleting objects. Django automatically creates default permissions for each model in your application:
+
+            add_modelname: Permission to add new objects of the model.
+            change_modelname: Permission to change existing objects of the model.
+            delete_modelname: Permission to delete existing objects of the model.
+
+            Permissiona can be set to users or groups. Groups are the group of users having a set of permissions and rules. We can create users and groups in django admin site and add users to the groups.Permission
+
+
+        To provide the authorization in the django we can give with a decorator @permisions_required('applicationname.permission_Modelname') in the view. and we have to proviede the permissions to the user or group in django admin site
+        so that they are authorized to perform that action.required
+
+
+
+
+
+Session Management in Django -
+
+    HTTP - Http is a standard Stateless Protocol. It is responsible for client and server communication. We will send some data through the request and http send back some data through response.
+        There are three basic features that make HTTP a simple but powerful protocol:
+
+        HTTP is connectionless: The HTTP client, i.e., a browser initiates an HTTP request and after a request is made, the client waits for the response. The server processes the request and sends a response back after which client disconnect
+        the connection. So client and server knows about each other during current request and response only. Further requests are made on new connection like client and server are new to each other.
+
+        HTTP is media independent: It means, any type of data can be sent by HTTP as long as both the client and the server know how to handle the data content. It is required for the client as well as
+        the server to specify the content type using appropriate MIME-type.
+
+        HTTP is stateless: As mentioned above, HTTP is connectionless and it is a direct result of HTTP being a stateless protocol. The server and client are aware of each other only during a current request.
+         Afterwards, both of them forget about each other. Due to this nature of the protocol, neither the client nor the browser can retain information between different requests across the web pages.
+
+        To store the state(data sent by request and response) and temporary data(like user search data or passwords or user activities or actions) we implement hidden variables or cookies or sessions.
+
+
+
+    Hidden Variables -
+
+        In hidden variables we send the temporary data which user provide through form we convert the buttons in the html template to form type = "url"
+        and in the view of that url under the form we assingn variable names to the form variable and send that as dictionary to template by the render function of the return statement
+        In the template we can access the data by {{key}} and {{value}} pairs of the dictionary.variable
+        To send that data into next template we have to same process for the next templates and their views. So this increases the burden for implementation to developer and burden for network too. so cookies are introduced.
+
+
+
+    Cookies - Small amount of information stored on the client server.
+
+        HTTP cookies (also called web cookies, Internet cookies, browser cookies, or simply cookies) are small blocks of data created by a web server while a user is
+        browsing a website and placed on the user's computer or other device by the user's web browser. Cookies are placed on the device used to access a website, and
+         more than one cookie may be placed on a user's device during a session.
+
+        Cookies serve useful and sometimes essential functions on the web. They enable web servers to store stateful information (such as items added in the shopping cart in
+        an online store) on the user's device or to track the user's browsing activity (including clicking particular buttons, logging in, or recording which pages were visited
+         in the past).[1] They can also be used to save for subsequent use information that the user previously entered into form fields, such as names, addresses, passwords, and payment card numbers.
+
+        We can set a limited number of cookies in a browser for a domain. Most of the browsers the limit is 15.
+        We can see the cookies in the browser with the help of developer tools.variable
+
+        Create a cookie -
+
+            response.set_cookie(name, value, expiry-time)
+
+        To retrieve cookies -
+
+            request.COOKIES - dictionary of all cookies
+
+            request.COOKIES[name] - single cookie
+
+        Once we create the cookies we can access them through out all the templates by above retreival method.
+
+        Refer the view - add vendor and template - add-admission.html for cookies implementation
+
+        To check the cookies functionality and check whether cookies are enabled or not in the browser in django introduced three methods
+
+            set_test_cookie() - To create a cookie to test
+            test_cookie_woorked() - To check whether the created tst cookie is working or not
+            delete_test_cookie() - To delete the created test cookie
+
+        The problems of cookies is -
+
+            Some users will disable cookies on the browser. Along with cookies even csrf token verification will also fail. To overcome this problem Sessions are introduced.
+
+
+
+    Sessions - Sessions are similar to cookies, they are stored in client browser and maintained in the server also. So even if the cookies are disabled in the browser the server will transfer the cookies maintained by the server through the url.
+
+        Sessions will use url rewriting concept.
+
+        Create a session -
+
+            request.session[name] = value
+
+        To retrieve session -
+
+            request.session.get(name)
+
+
 
 
 

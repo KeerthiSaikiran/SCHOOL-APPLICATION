@@ -33,6 +33,24 @@
 
                 {% csrf_token %}
             </form>
+            <br><br>
+
+            <!-- Cookies retrieval -->
+    <!--            {% for key,value in request.COOKIES.items %}-->
+    <!--                {{key}} - {{value}}-->
+    <!--            {% endfor %}-->
+
+
+
+            <!-- Sessions retreival -->
+                    {% for key,value in request.session.items %}-->
+                        {{key}} - {{value}}
+                    {% endfor %}
+
+
+
+
+
     </div>
 </body>
 </html>
